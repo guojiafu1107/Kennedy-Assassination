@@ -462,6 +462,38 @@ function changePage(direction) {
 // ========================================
 // PDF查看器
 // ========================================
+// ========================================
+// PDF Viewer - 支持本地和外部存储
+// ========================================
+
+// 配置：PDF 文件的基础 URL
+// 如果 PDF 文件存储在外部服务器（如 CDN、对象存储），修改此配置
+// 例如: const PDF_BASE_URL = 'https://your-cdn.com/pdfs/';
+const PDF_BASE_URL = ''; // 空表示使用相对路径（本地）
+
+// 配置：当 PDF 不存在时的提示信息
+const PDF_NOT_FOUND_MESSAGE = `
+    <div style="padding: 40px; text-align: center; color: #666;">
+        <div style="font-size: 64px; margin-bottom: 20px;">📄</div>
+        <h2 style="color: #333; margin-bottom: 15px;">PDF 文件暂不可用</h2>
+        <p style="margin-bottom: 20px; line-height: 1.6;">
+            该档案文件未包含在当前部署中。<br>
+            如需查看完整档案，请在本地运行网站。
+        </p>
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: left; display: inline-block;">
+            <p style="margin: 0 0 10px 0; font-weight: bold;">本地运行步骤：</p>
+            <ol style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                <li>从 GitHub 克隆完整项目（包含所有 PDF 文件）</li>
+                <li>双击运行 <code>start-server.bat</code></li>
+                <li>访问 <code>http://localhost:8080</code></li>
+            </ol>
+        </div>
+        <p style="margin-top: 20px; font-size: 14px; color: #999;">
+            档案编号：<span id="notFoundDocId"></span>
+        </p>
+    </div>
+`;
+
 function openPdfViewer(filename, title) {
     const modal = document.getElementById('pdfModal');
     const viewer = document.getElementById('pdfViewer');
@@ -471,12 +503,85 @@ function openPdfViewer(filename, title) {
     if (!modal || !viewer) return;
     
     modalTitle.textContent = title || filename;
-    viewer.src = `./${filename}`;
-    downloadLink.href = `./${filename}`;
+    
+    // 构建 PDF URL
+    const pdfUrl = PDF_BASE_URL ? `${PDF_BASE_URL}${filename}` : `./${filename}`;
+    
+    // 先尝试加载 PDF，如果失败则显示提示
+    viewer.src = pdfUrl;
+    downloadLink.href = pdfUrl;
     downloadLink.download = filename;
+    
+    // 监听加载错误
+    viewer.onerror = () => showPdfNotFound(viewer, filename);
+    
+    // 设置超时检查（iframe 加载完成时间）
+    setTimeout(() => {
+        try {
+            // 尝试访问 iframe 内容，如果跨域或 404 会抛出错误
+            const iframeDoc = viewer.contentDocument || viewer.contentWindow?.document;
+            if (iframeDoc && iframeDoc.body) {
+                const bodyText = iframeDoc.body.innerText || '';
+                // 检查是否包含错误信息（如 404 页面）
+                if (bodyText.includes('404') || bodyText.includes('not found') || bodyText.includes('不存在')) {
+                    showPdfNotFound(viewer, filename);
+                }
+            }
+        } catch (e) {
+            // 跨域错误，无法检查内容，继续显示
+        }
+    }, 2000);
     
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+}
+
+// 显示 PDF 不存在提示
+function showPdfNotFound(viewer, filename) {
+    // 创建错误提示页面
+    const errorHtml = PDF_NOT_FOUND_MESSAGE.replace(
+        '<span id="notFoundDocId"></span>',
+        filename
+    );
+    
+    // 使用 data URL 显示错误信息
+    const errorBlob = new Blob([`
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <style>
+                body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+            </style>
+        </head>
+        <body>
+            ${errorHtml}
+        </body>
+        </html>
+    `], { type: 'text/html' });
+    
+    viewer.src = URL.createObjectURL(errorBlob);
+    
+    // 禁用下载按钮
+    const downloadLink = document.getElementById('downloadLink');
+    if (downloadLink) {
+        downloadLink.style.opacity = '0.5';
+        downloadLink.style.pointerEvents = 'none';
+        downloadLink.title = 'PDF 文件暂不可用';
+    }
+}
+
+// 下载 PDF 前检查
+function downloadPDF() {
+    const downloadLink = document.getElementById('downloadLink');
+    const viewer = document.getElementById('pdfViewer');
+    
+    // 检查当前是否显示的是错误页面
+    if (viewer && viewer.src && viewer.src.startsWith('blob:')) {
+        alert('PDF 文件暂不可用，请在本地运行网站以查看完整档案。');
+        return false;
+    }
+    return true;
 }
 
 function closeModal() {
@@ -662,3 +767,4 @@ window.openPdfViewer = openPdfViewer;
 window.closeModal = closeModal;
 window.performAdvancedSearch = performAdvancedSearch;
 window.resetSearch = resetSearch;
+window.downloadPDF = downloadPDF;
