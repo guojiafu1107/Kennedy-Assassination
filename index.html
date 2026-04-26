@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>肯尼迪遇刺案档案知识库 | JFK Assassination Archive</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-landmark"></i>
+                <span>JFK档案库</span>
+            </div>
+            <nav class="nav">
+                <a href="#overview" class="nav-link">概览</a>
+                <a href="#timeline" class="nav-link">时间线</a>
+                <a href="#documents" class="nav-link active">档案文件</a>
+                <a href="#search" class="nav-link">高级搜索</a>
+                <a href="#about" class="nav-link">关于</a>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- 移动端菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#overview">概览</a>
+        <a href="#timeline">时间线</a>
+        <a href="#documents">档案文件</a>
+        <a href="#search">高级搜索</a>
+        <a href="#about">关于</a>
+    </div>
+
+    <!-- 主横幅 -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1>肯尼迪总统遇刺案<br>解密档案知识库</h1>
+                <p class="hero-subtitle">探索历史真相，访问完整的美国国家档案解密文件</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalDocs">2,182</span>
+                        <span class="stat-label">解密档案</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">1963</span>
+                        <span class="stat-label">历史年份</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">公开访问</span>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="scrollToSection('documents')">
+                        <i class="fas fa-folder-open"></i> 浏览档案
+                    </button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('timeline')">
+                        <i class="fas fa-clock"></i> 查看时间线
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 概览部分 -->
+    <section id="overview" class="section">
+        <div class="container">
+            <h2 class="section-title">案件概览</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <div class="card-icon"><i class="fas fa-user-tie"></i></div>
+                    <h3>约翰·F·肯尼迪</h3>
+                    <p>美国第35任总统，1961年就职，1963年11月22日在德克萨斯州达拉斯遇刺身亡，成为美国历史上第四位遇刺身亡的总统。</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon"><i class="fas fa-crosshairs"></i></div>
+                    <h3>李·哈维·奥斯瓦尔德</h3>
+                    <p>被认定为刺杀肯尼迪的凶手，前美国海军陆战队员，曾在苏联居住，案发后在达拉斯一家电影院被捕。</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon"><i class="fas fa-car"></i></div>
+                    <h3>迪利广场</h3>
+                    <p>位于达拉斯市中心，肯尼迪总统在此乘坐敞篷车经过时遭到枪击。第六层博物馆现为纪念场所。</p>
+                </div>
+                <div class="overview-card">
+                    <div class="card-icon"><i class="fas fa-search"></i></div>
+                    <h3>沃伦委员会</h3>
+                    <p>由首席大法官厄尔·沃伦领导的调查委员会，1964年发布报告，认定奥斯瓦尔德单独行动，无国内国际阴谋。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 时间线 -->
+    <section id="timeline" class="section section-dark">
+        <div class="container">
+            <h2 class="section-title light">事件时间线</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">1963年11月22日 12:30</span>
+                        <h3>枪击发生</h3>
+                        <p>肯尼迪总统的车队经过迪利广场时，遭到枪击。总统颈部和头部中弹，当场被送往医院。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">1963年11月22日 13:00</span>
+                        <h3>总统逝世</h3>
+                        <p>约翰·F·肯尼迪在帕克兰医院被宣布死亡，享年46岁。林登·约翰逊在空军一号上宣誓就职。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">1963年11月22日 13:50</span>
+                        <h3>奥斯瓦尔德被捕</h3>
+                        <p>李·哈维·奥斯瓦尔德在德克萨斯州剧院被捕，此前他还涉嫌枪杀警官J.D.蒂皮特。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">1963年11月24日 11:21</span>
+                        <h3>奥斯瓦尔德被枪杀</h3>
+                        <p>在达拉斯警察总部地下室转移时，奥斯瓦尔德被夜总会老板杰克·鲁比枪杀，全国电视直播。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">1964年9月24日</span>
+                        <h3>沃伦报告发布</h3>
+                        <p>沃伦委员会发布888页调查报告，认定奥斯瓦尔德单独行动，子弹来自德州教科书仓库大楼第六层。</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">1992年至今</span>
+                        <h3>档案解密</h3>
+                        <p>《肯尼迪遇刺案档案收藏法案》要求逐步解密相关文件。2017-2025年间，数万份档案陆续公开。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 档案文件 -->
+    <section id="documents" class="section">
+        <div class="container">
+            <h2 class="section-title">档案文件库</h2>
+            
+            <!-- 搜索和筛选 -->
+            <div class="search-bar">
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="搜索档案编号、日期或关键词...">
+                </div>
+                <div class="filter-group">
+                    <select id="categoryFilter">
+                        <option value="">所有分类</option>
+                        <option value="CIA">CIA档案 (104系列)</option>
+                        <option value="FBI">FBI档案 (124系列)</option>
+                        <option value="State">国务院 (157系列)</option>
+                        <option value="Defense">国防部 (198系列)</option>
+                        <option value="Warren">沃伦委员会 (180系列)</option>
+                        <option value="HSCA">众议院委员会 (180系列)</option>
+                    </select>
+                    <select id="sortFilter">
+                        <option value="newest">最新优先</option>
+                        <option value="oldest">最早优先</option>
+                        <option value="size">文件大小</option>
+                        <option value="name">文件名</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 分类标签 -->
+            <div class="category-tags">
+                <button class="tag active" data-category="">全部</button>
+                <button class="tag" data-category="104">CIA情报文件</button>
+                <button class="tag" data-category="124">FBI调查报告</button>
+                <button class="tag" data-category="157">国务院电报</button>
+                <button class="tag" data-category="180">委员会记录</button>
+                <button class="tag" data-category="194">CIA行动文件</button>
+                <button class="tag" data-category="198">国防部文件</button>
+            </div>
+
+            <!-- 统计信息 -->
+            <div class="stats-bar">
+                <span id="statsText">加载中...</span>
+            </div>
+
+            <!-- 文件列表 -->
+            <div class="documents-grid" id="documentsGrid">
+                <!-- 文件卡片将通过JavaScript动态生成 -->
+            </div>
+            
+            <!-- 无结果提示 -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>未找到匹配的档案</h3>
+                <p>请尝试调整搜索条件或筛选器</p>
+            </div>
+
+            <!-- 分页 -->
+            <div class="pagination" id="pagination">
+                <button class="page-btn" id="prevBtn" disabled><i class="fas fa-chevron-left"></i></button>
+                <span class="page-info" id="pageInfo">第 1 页</span>
+                <button class="page-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 高级搜索 -->
+    <section id="search" class="section section-gray">
+        <div class="container">
+            <h2 class="section-title">高级搜索</h2>
+            <div class="advanced-search">
+                <div class="search-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>档案编号</label>
+                            <input type="text" id="docIdSearch" placeholder="例: 104-10004-10143">
+                        </div>
+                        <div class="form-group">
+                            <label>日期范围</label>
+                            <div class="date-range">
+                                <input type="date" id="dateFrom">
+                                <span>至</span>
+                                <input type="date" id="dateTo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>机构来源</label>
+                            <select id="agencySearch">
+                                <option value="">所有机构</option>
+                                <option value="CIA">中央情报局 (CIA)</option>
+                                <option value="FBI">联邦调查局 (FBI)</option>
+                                <option value="State">国务院</option>
+                                <option value="DOD">国防部</option>
+                                <option value="WhiteHouse">白宫</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>文件大小</label>
+                            <select id="sizeFilter">
+                                <option value="">所有大小</option>
+                                <option value="small">小于500KB</option>
+                                <option value="medium">500KB - 2MB</option>
+                                <option value="large">大于2MB</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label>关键词</label>
+                        <input type="text" id="keywordSearch" placeholder="输入关键词，多个词用空格分隔">
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" onclick="performAdvancedSearch()">
+                            <i class="fas fa-search"></i> 开始搜索
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetSearch()">
+                            <i class="fas fa-undo"></i> 重置条件
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于 -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">关于本项目</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>档案来源</h3>
+                    <p>本知识库收录了美国国家档案馆(NARA)公开的肯尼迪遇刺案相关解密文件。这些档案包括CIA、FBI、国务院、国防部等多个机构的内部文件、调查报告、电报通信和行动记录。</p>
+                    
+                    <h3>历史背景</h3>
+                    <p>1992年，美国国会通过《肯尼迪遇刺案档案收藏法案》(JFK Records Collection Act)，要求所有相关机构在25年内公开相关档案。2017年10月，首批2,800份档案解密；此后每年持续公布，直至2025年全面公开。</p>
+                    
+                    <h3>使用说明</h3>
+                    <p>所有PDF文件均可在浏览器中直接查看或下载。建议使用关键词搜索功能快速定位相关文档。部分文件因年代久远，扫描质量有限，敬请谅解。</p>
+                </div>
+                <div class="about-links">
+                    <h3>相关链接</h3>
+                    <ul>
+                        <li><a href="https://www.archives.gov/research/jfk" target="_blank"><i class="fas fa-external-link-alt"></i> 美国国家档案馆JFK专页</a></li>
+                        <li><a href="https://www.jfkassassination.net/" target="_blank"><i class="fas fa-external-link-alt"></i> JFK暗杀研究网</a></li>
+                        <li><a href="https://www.maryferrell.org/" target="_blank"><i class="fas fa-external-link-alt"></i> Mary Ferrell基金会档案库</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PDF查看器模态框 -->
+    <div class="modal" id="pdfModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">档案预览</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe id="pdfViewer" src="" frameborder="0"></iframe>
+            </div>
+            <div class="modal-footer">
+                <a id="downloadLink" href="" download class="btn btn-primary">
+                    <i class="fas fa-download"></i> 下载PDF
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-landmark"></i>
+                    <span>JFK档案库</span>
+                </div>
+                <p class="footer-desc">致力于保存和传播历史真相，为研究人员和公众提供便捷的档案访问服务。</p>
+                <div class="footer-links">
+                    <a href="#overview">概览</a>
+                    <a href="#timeline">时间线</a>
+                    <a href="#documents">档案</a>
+                    <a href="#about">关于</a>
+                </div>
+                <p class="footer-copyright">© 2025 JFK档案知识库 | 仅供学术研究使用</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
