@@ -463,36 +463,71 @@ function changePage(direction) {
 // PDF查看器
 // ========================================
 // ========================================
-// PDF Viewer - 支持本地和外部存储
+// PDF Viewer - 支持本地、外部存储和 NARA 链接
 // ========================================
 
 // 配置：PDF 文件的基础 URL
-// 如果 PDF 文件存储在外部服务器（如 CDN、对象存储），修改此配置
-// 例如: const PDF_BASE_URL = 'https://your-cdn.com/pdfs/';
-const PDF_BASE_URL = ''; // 空表示使用相对路径（本地）
+// 选项 1: 空字符串 '' = 使用相对路径（本地，需包含 PDF 文件）
+// 选项 2: 'nara' = 使用 NARA 美国国家档案馆官方链接（在线查看）
+// 选项 3: 自定义 URL = 如 'https://your-cdn.com/pdfs/'
+const PDF_SOURCE = 'nara'; // 当前使用 NARA 官方链接
+
+// NARA 官方档案基础 URL
+const NARA_BASE_URL = 'https://www.archives.gov/files/research/jfk/releases/2023/';
+
+// 获取 PDF 基础 URL
+function getPdfBaseUrl() {
+    if (PDF_SOURCE === 'nara') {
+        return NARA_BASE_URL;
+    }
+    return PDF_SOURCE;
+}
 
 // 配置：当 PDF 不存在时的提示信息
-const PDF_NOT_FOUND_MESSAGE = `
-    <div style="padding: 40px; text-align: center; color: #666;">
-        <div style="font-size: 64px; margin-bottom: 20px;">📄</div>
-        <h2 style="color: #333; margin-bottom: 15px;">PDF 文件暂不可用</h2>
-        <p style="margin-bottom: 20px; line-height: 1.6;">
-            该档案文件未包含在当前部署中。<br>
-            如需查看完整档案，请在本地运行网站。
-        </p>
-        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: left; display: inline-block;">
-            <p style="margin: 0 0 10px 0; font-weight: bold;">本地运行步骤：</p>
-            <ol style="margin: 0; padding-left: 20px; line-height: 1.8;">
-                <li>从 GitHub 克隆完整项目（包含所有 PDF 文件）</li>
-                <li>双击运行 <code>start-server.bat</code></li>
-                <li>访问 <code>http://localhost:8080</code></li>
-            </ol>
+function getPdfNotFoundMessage(filename) {
+    if (PDF_SOURCE === 'nara') {
+        return `
+            <div style="padding: 40px; text-align: center; color: #666;">
+                <div style="font-size: 64px; margin-bottom: 20px;">🔍</div>
+                <h2 style="color: #333; margin-bottom: 15px;">无法加载档案</h2>
+                <p style="margin-bottom: 20px; line-height: 1.6;">
+                    该档案在 NARA 官方数据库中可能不存在或链接已失效。<br>
+                    请尝试直接访问 <a href="https://www.archives.gov/research/jfk" target="_blank" style="color: #c9a227;">NARA 官网</a> 搜索该档案。
+                </p>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; display: inline-block;">
+                    <p style="margin: 0; font-family: monospace; font-size: 14px;">
+                        档案编号：${filename}
+                    </p>
+                </div>
+                <p style="margin-top: 20px; font-size: 14px; color: #999;">
+                    当前使用 NARA 官方数据源
+                </p>
+            </div>
+        `;
+    }
+    
+    return `
+        <div style="padding: 40px; text-align: center; color: #666;">
+            <div style="font-size: 64px; margin-bottom: 20px;">📄</div>
+            <h2 style="color: #333; margin-bottom: 15px;">PDF 文件暂不可用</h2>
+            <p style="margin-bottom: 20px; line-height: 1.6;">
+                该档案文件未包含在当前部署中。<br>
+                如需查看完整档案，请在本地运行网站。
+            </p>
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: left; display: inline-block;">
+                <p style="margin: 0 0 10px 0; font-weight: bold;">本地运行步骤：</p>
+                <ol style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>从 GitHub 克隆完整项目（包含所有 PDF 文件）</li>
+                    <li>双击运行 <code>start-server.bat</code></li>
+                    <li>访问 <code>http://localhost:8080</code></li>
+                </ol>
+            </div>
+            <p style="margin-top: 20px; font-size: 14px; color: #999;">
+                档案编号：${filename}
+            </p>
         </div>
-        <p style="margin-top: 20px; font-size: 14px; color: #999;">
-            档案编号：<span id="notFoundDocId"></span>
-        </p>
-    </div>
-`;
+    `;
+}
 
 function openPdfViewer(filename, title) {
     const modal = document.getElementById('pdfModal');
@@ -505,7 +540,8 @@ function openPdfViewer(filename, title) {
     modalTitle.textContent = title || filename;
     
     // 构建 PDF URL
-    const pdfUrl = PDF_BASE_URL ? `${PDF_BASE_URL}${filename}` : `./${filename}`;
+    const baseUrl = getPdfBaseUrl();
+    const pdfUrl = baseUrl ? `${baseUrl}${filename}` : `./${filename}`;
     
     // 先尝试加载 PDF，如果失败则显示提示
     viewer.src = pdfUrl;
@@ -539,10 +575,7 @@ function openPdfViewer(filename, title) {
 // 显示 PDF 不存在提示
 function showPdfNotFound(viewer, filename) {
     // 创建错误提示页面
-    const errorHtml = PDF_NOT_FOUND_MESSAGE.replace(
-        '<span id="notFoundDocId"></span>',
-        filename
-    );
+    const errorHtml = getPdfNotFoundMessage(filename);
     
     // 使用 data URL 显示错误信息
     const errorBlob = new Blob([`
