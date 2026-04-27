@@ -470,7 +470,8 @@ function changePage(direction) {
 // 选项 1: 空字符串 '' = 使用相对路径（本地，需包含 PDF 文件）
 // 选项 2: 'nara' = 使用 NARA 美国国家档案馆官方链接（在线查看）
 // 选项 3: 自定义 URL = 如 'https://your-cdn.com/pdfs/'
-const PDF_SOURCE = 'nara'; // 当前使用 NARA 官方链接
+// 选项 4: CloudBase 腾讯云存储
+const PDF_SOURCE = 'https://6a66-jfk-archive-d0gqsjips212627ec-1338548285.tcb.qcloud.la/pdfs/';
 
 // NARA 官方档案基础 URL
 const NARA_BASE_URL = 'https://www.archives.gov/files/research/jfk/releases/2023/';
@@ -479,6 +480,10 @@ const NARA_BASE_URL = 'https://www.archives.gov/files/research/jfk/releases/2023
 function getPdfBaseUrl() {
     if (PDF_SOURCE === 'nara') {
         return NARA_BASE_URL;
+    }
+    // 如果 PDF_SOURCE 是完整 URL（如 CloudBase），直接返回
+    if (PDF_SOURCE.startsWith('http')) {
+        return PDF_SOURCE;
     }
     return PDF_SOURCE;
 }
@@ -501,6 +506,27 @@ function getPdfNotFoundMessage(filename) {
                 </div>
                 <p style="margin-top: 20px; font-size: 14px; color: #999;">
                     当前使用 NARA 官方数据源
+                </p>
+            </div>
+        `;
+    }
+    
+    if (PDF_SOURCE.startsWith('http')) {
+        return `
+            <div style="padding: 40px; text-align: center; color: #666;">
+                <div style="font-size: 64px; margin-bottom: 20px;">☁️</div>
+                <h2 style="color: #333; margin-bottom: 15px;">档案未上传</h2>
+                <p style="margin-bottom: 20px; line-height: 1.6;">
+                    该档案尚未上传到云存储。<br>
+                    请联系管理员上传该文件。
+                </p>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; display: inline-block;">
+                    <p style="margin: 0; font-family: monospace; font-size: 14px;">
+                        档案编号：${filename}
+                    </p>
+                </div>
+                <p style="margin-top: 20px; font-size: 14px; color: #999;">
+                    当前使用腾讯云 CloudBase 存储
                 </p>
             </div>
         `;
