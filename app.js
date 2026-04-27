@@ -471,7 +471,7 @@ function changePage(direction) {
 // 选项 2: 'nara' = 使用 NARA 美国国家档案馆官方链接（在线查看）
 // 选项 3: 自定义 URL = 如 'https://your-cdn.com/pdfs/'
 // 选项 4: CloudBase 腾讯云存储
-const PDF_SOURCE = 'https://6a66-jfk-archive-d0gqsjips212627ec-1338548285.tcb.qcloud.la/pdfs/';
+const PDF_SOURCE = 'nara';
 
 // NARA 官方档案基础 URL
 const NARA_BASE_URL = 'https://www.archives.gov/files/research/jfk/releases/2023/';
